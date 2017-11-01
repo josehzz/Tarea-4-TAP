@@ -21,9 +21,7 @@ void appendZeros(string &n, int total){
 void addLeading(string &n1, string &n2) {
     int len1 = n1.size();
     int len2 = n2.size();
-
-    //cout << "added0: " << n1 << " " << n2 << "sizes: " << n1.size() << " " << n2.size() <<endl;
-
+	
     if (len1 < len2){
         for (int i = 0; i < len2 - len1; i++)
             n1 = '0' + n1;
@@ -32,13 +30,10 @@ void addLeading(string &n1, string &n2) {
         for (int i = 0; i < len1 - len2; i++)
             n2 = '0' + n2;
     }
-
-    //cout << "added1: " << n1 << " " << n2 <<endl;
 }
 
 string addString(string n1, string n2){ //Assuming both string have same size
-    addLeading(n1, n2);
-    //cout << "to add: " << n1 << " " << n2 <<endl;
+    addLeading(n1, n2); //DO NOT ASSUME, BE ASSURED
 
     string res = "";
     bool carry = false;
@@ -135,11 +130,9 @@ string resta(string n1, string n2){
     }
 
     string res; res.assign(n1);
-    //resString1(n2); //Padding
 
     while(n2.size() > 1 || n2[0] != '0'){ //While there's multiplication to be done
         resString1(res);
-        //addLeading(n1, res);
         resString1(n2);
     }
 
@@ -148,8 +141,6 @@ string resta(string n1, string n2){
 
 int isStringBigger(string n1, string n2){
     int len1 = n1.size(), len2 = n2.size();
-
-    //if(len2 == 4) cout << "size 4: " << n2[0] << " " << n2[3] <<endl;
 
     if(len1 > len2){
         return 1;
@@ -173,9 +164,9 @@ int isStringBigger(string n1, string n2){
 
 string resString(string n1, string n2){
     addLeading(n1, n2);
-    //cout << "res st: " << n1 << " " << n2 <<endl;
 
     //Decide which string is bigger and put that on n1
+	//n1 should always be bigger
     int isBigger = isStringBigger(n1, n2);
     if(isBigger == 0){ //Equal
         return "0";
@@ -211,15 +202,9 @@ string resString(string n1, string n2){
             else if(n1[j] != '0') {//A lending digit was found
                 n1[j] = (char)((int)n1[j] - 1);
                 lend = false;
-
-    //            if(n1[i] == '0' && i == 0){ //Erase leading '0'
-    //                n1.erase(0, 1);
-    //            }
             }
             j--;
         }
-
-        //if(n1[i] < '0') cout << "S: " << n1 << " I: " << i << endl;
     }
 
     //Erase leading zeros
@@ -231,8 +216,6 @@ string resString(string n1, string n2){
             break;
         }
     }
-
-    //cout << "res en: " << n1 << " " << n2 <<endl;
 
     return n1;
 }
@@ -291,8 +274,6 @@ string divCon(string n1, string n2){
     addLeading(n1, n2);
     int _n = n1.size();
 
-    //if(_n == 1) cout << "_" << n1 << " " << n2 <<endl;
-
     if(_n == 0) return 0;
     if(_n == 1) return multiply(n1, n2);
 
@@ -305,13 +286,9 @@ string divCon(string n1, string n2){
     string x2 = n2.substr(0, _h1);
     string y2 = n2.substr(_h1, _h2);
 
-    //cout << "na: " << x1 << " " << y1 << " ni: " << x2 << " " << y2 <<endl;
-
     string z2 = divCon(x1, x2);
     string z0 = divCon(y1, y2);
     string z1 = resString(resString(divCon(addString(x1, y1), addString(x2, y2)), z2), z0);
-
-    //cout << "z2: " << z2 << " z1: " << z1 << " z0: " << z0 <<endl;
 
     appendZeros(z2, _h2 * 2); //Add '0's from decimal base
     appendZeros(z1, _h2);
@@ -329,17 +306,6 @@ int main(){
     num2 = all.substr(0, all.find(" "));
 
     addLeading(num1, num2); //Add '0' if strings are not equal in length
-    //cout << num1 << endl << num2 <<endl;
-
-    //cout << "sum: " << addString("0222", "5000") <<endl;
-
-    //resString1(num1); cout << "res: " << num1 <<endl;
-    //resString1(num1); cout << "res: " << num1 <<endl;
-    //resString1(num1); cout << "res: " << num1 <<endl;
-
-//    cout << "mult: " << multiply(num1, num2) <<endl;
-//    cout << "divC: " << divCon(num1, num2) <<endl;
-//    cout << "resS: " << resString(num1, num2) <<endl;
 
     string result = divCon(num1, num2);
 
